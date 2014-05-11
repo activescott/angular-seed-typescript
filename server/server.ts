@@ -10,7 +10,7 @@ app.get('/hello.txt', function(req: express.Request, res: express.Response) : an
   res.send('Hello World');
 });
 
-app.use('/', express.static('out/client/app/'));
+app.use('/', express.static('out/client/'));
 
 
 /* NOTE: No need to run the server here, we use grunt for that 

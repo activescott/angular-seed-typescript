@@ -65,7 +65,7 @@ module.exports = function(grunt) {
                 }, {
                     expand: true,
                     src: [paths.bower_components.allJsFilesPattern()],
-                    dest: paths.out.client.dir('app'),
+                    dest: paths.out.client.dir(),
                     filter: 'isFile'
                 }]
             }
