@@ -78,12 +78,25 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-express');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.registerTask('launch-browser', 'Launches the specified page in system default browser.', function() {
+        var resolve = this.async();
+        grunt.util.spawn(
+            { cmd: 'node'
+            , args: ['-e', 'require("open")("http://localhost:9001");']
+            }, function (error, result, code) {
+                if (error) 
+                    grunt.log.writeln("error:" + error);
+                resolve(code == 0);
+            }
+        );
+        return true;
+    });
 
     grunt.registerTask('typescriptPreBuild', function() {
         grunt.log.writeln("If you encounter 'error TS5007: Cannot resolve referenced file...' errors, be sure to run `tsd update` from the command line to install any missing TypeScript definitions from the tsd.d.json config.");
     });
 
     grunt.registerTask('build', ['tslint', 'clean', 'typescriptPreBuild', 'typescript', 'copy:client']);
-    grunt.registerTask('debug', ['build', 'express:myCustom', 'express-keepalive']);
+    grunt.registerTask('debug', ['build', 'express:myCustom', 'launch-browser', 'express-keepalive']);
     grunt.registerTask('default', ['debug']);
 }
